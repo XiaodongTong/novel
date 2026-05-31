@@ -1,3 +1,6 @@
+
+
+``` mermaid
 graph TD
     subgraph 准备阶段
         A[Generate Outline<br/>生成大纲<br/>每批50章×6批] -->|BATCH_DONE| A
@@ -43,3 +46,4 @@ graph TD
     class A,C,E,G stage
     class B,D,F,H,I review
     class J done
+```

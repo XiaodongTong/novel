@@ -1,0 +1,223 @@
+{
+  "main": {
+    "id": "d7b856f136289313",
+    "type": "split",
+    "children": [
+      {
+        "id": "4134de4aed32d290",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5d6207f6673a53ee",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "cybervisor-workflow.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "cybervisor-workflow"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d1d870d0cc59c448",
+    "type": "split",
+    "children": [
+      {
+        "id": "5cf33cc694415200",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "09938002b4345b1a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "39b248afb6d4b334",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "10db6ed54bafad27",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "fc2b63ef193e9410",
+    "type": "split",
+    "children": [
+      {
+        "id": "ecf5b2335ce57823",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16826a879b720ba6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "cybervisor-workflow.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "cybervisor-workflow 的反向链接列表"
+            }
+          },
+          {
+            "id": "c370ea6231064dba",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "cybervisor-workflow.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "cybervisor-workflow 的出链列表"
+            }
+          },
+          {
+            "id": "ed790dd71a5e57f5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "41161302de104d29",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "6ab0ac94b31892b1",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "cybervisor-workflow.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "cybervisor-workflow 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "5d6207f6673a53ee",
+  "lastOpenFiles": [
+    "chapters/第130章 信仰筑基.md",
+    "workspace/archive/batch-43/writing-progress.md",
+    "workspace/archive/batch-43/character-brief.md",
+    "workspace/archive/batch-43/chapter-review.md",
+    "workspace/archive/batch-43",
+    "chapters/第72章 信仰如潮.md",
+    "cybervisor-workflow.md",
+    "chapters/第129章 清道会.md",
+    "chapters/第128章 信仰之网.md",
+    "chapters/第127章 苏瑶的觉醒.md",
+    "workspace/archive/batch-42/chapter-review.md",
+    "workspace/archive/batch-42/writing-progress.md",
+    "workspace/archive/batch-42/character-brief.md",
+    "workspace/archive/batch-42",
+    "chapters/第126章 粮荒.md",
+    "chapters/第125章 孟千秋的棋.md",
+    "chapters/第124章 柳长老的密信.md",
+    "chapters/第123章 审查.md",
+    "chapters/第122章 天玄之眼.md",
+    "chapters/第121章 星火燎原.md",
+    "workspace/archive/batch-40/writing-progress.md",
+    "workspace/archive/batch-40/character-brief.md",
+    "workspace/archive/batch-40/chapter-review.md",
+    "workspace/archive/batch-40",
+    "chapters/第120章 新的苍梧.md",
+    "chapters/第119章 火种.md",
+    "images/Gemini_Generated_Image_ne83z2ne83z2ne83.png",
+    "images/8882688b-bdf8-474d-ba60-301c7d97cbd6.jpeg",
+    "images/cover.png",
+    "chapters/第118章 撤离（一）.md",
+    "workspace/archive/batch-39/writing-progress.md",
+    "workspace/archive/batch-39/character-brief.md",
+    "workspace/archive/batch-39",
+    "workspace/archive/batch-37"
+  ]
+}
