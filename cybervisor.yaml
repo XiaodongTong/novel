@@ -6,8 +6,6 @@ stages:
     prompt_template: |
       你是一位资深网文策划编辑，擅长长篇玄幻修仙小说的大纲设计。
 
-      请基于以下素材，生成 300 章的详细故事大纲：
-
       基础设定（人工维护，不可修改）：
       - `outline/premise.md` — 故事前提与核心冲突
       - `outline/world.md` — 世界观设定
@@ -15,14 +13,28 @@ stages:
       任务要求：
       > {objective}
 
-      请生成完整大纲并写入 `outline/plot.md`（覆盖已有内容），包含：
-      - 总体结构划分（卷/幕），每卷的起承转合
-      - 每章的章节号、标题、核心事件（2-4 句话概括）、涉及主要人物、情绪基调
-      - 伏笔线索追踪表：每条暗线在第几章埋设、第几章回收
-      - 主角修为进度表：每 10 章的境界/实力变化
-      - 关键转折点标注
+      本阶段分批生成 300 章大纲，每批 50 章。请按以下步骤执行：
 
-      同时将伏笔线索追踪表和修为进度表写入 `.cybervisor/artifacts/outline-tracking.md`，供后续阶段快速查询。
+      第一步 — 确定批次进度
+      - 读取 `.cybervisor/artifacts/outline-progress.md`，确定下一批起始章节号 N
+      - 如果文件不存在，则 N = 1（这是第一批）
+      - 本批写第 N 到 N+49 章
+
+      第二步 — 第一批特有任务（仅 N=1 时执行）
+      - 在 `outline/plot.md` 顶部写入总体结构概览：卷/幕划分、每卷起承转合、主角修为总进度、关键转折点列表
+      - 总体结构只需写一次，后续批次不再重复
+
+      第三步 — 生成本批 50 章大纲
+      - 如果 N > 1，先读取 `outline/plot.md` 已有内容和 `outline-tracking.md`，确保本批与前文衔接
+      - 在 `outline/plot.md` 末尾追加本批 50 章的详细大纲
+      - 每章包含：章节号、标题、核心事件（2-4 句话概括）、涉及主要人物、情绪基调
+      - 标注本批中的关键转折点（如有）
+
+      第四步 — 更新追踪表
+      - 更新 `.cybervisor/artifacts/outline-tracking.md`：
+        - 伏笔线索追踪表：新增伏笔、标注本批回收的伏笔
+        - 主角修为进度表：本批每 10 章的境界/实力变化
+      - 更新 `.cybervisor/artifacts/outline-progress.md`：记录已完成章节范围、当前批次号
 
       大纲质量要求：
       - 节奏张弛有度，每 5-8 章设置一个小高潮，每 25-30 章设置一个大转折
@@ -31,17 +43,37 @@ stages:
       - 配角有独立弧光，不是工具人
       - 伏笔有埋有收，前后呼应
       - 符合 CLAUDE.md 中的风格要求和禁忌事项
+    contract:
+      fields:
+        Batch Info:
+          description: 本批生成的章节范围和进度。
+          example: "第 1-50 章（批次 1/6），累计 50/300 章"
+        New Foreshadowing:
+          description: 本批新增的伏笔线索。
+          example: "第 12 章：主角在药园发现一块残破玉简；第 38 章：宗门密室中听到关于'上古禁术'的对话"
+      routes:
+        BATCH_DONE:
+          description: 本批 50 章已完成，但尚未写满 300 章，需要继续下一批。
+          next_stage: Generate Outline
+        COMPLETE:
+          description: 300 章大纲全部完成，可以进入审查阶段。
+          next_stage: Review Outline
     cleanup:
-      - .cybervisor/artifacts
       - .cybervisor/backups
       - .cybervisor/logs/stages
       - .tmp
+    keep_artifacts:
+      - .cybervisor/artifacts/outline-progress.md
+      - .cybervisor/artifacts/outline-tracking.md
+    backup_artifacts:
+      - outline/plot.md
     read_only_paths:
       - "outline/premise.md"
       - "outline/world.md"
       - "CLAUDE.md"
     max_retries: 3
-    next_stage: Review Outline
+    max_iterations: 6
+    max_iterations_next_stage: Review Outline
 
   - name: Review Outline
     prompt_template: |
