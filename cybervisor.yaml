@@ -16,7 +16,7 @@ stages:
       本阶段分批生成 300 章大纲，每批 50 章。请按以下步骤执行：
 
       第一步 — 确定批次进度
-      - 读取 `.cybervisor/artifacts/outline-progress.md`，确定下一批起始章节号 N
+      - 读取 `workspace/outline-progress.md`，确定下一批起始章节号 N
       - 如果文件不存在，则 N = 1（这是第一批）
       - 本批写第 N 到 N+49 章
 
@@ -31,10 +31,10 @@ stages:
       - 标注本批中的关键转折点（如有）
 
       第四步 — 更新追踪表
-      - 更新 `.cybervisor/artifacts/outline-tracking.md`：
+      - 更新 `workspace/outline-tracking.md`：
         - 伏笔线索追踪表：新增伏笔、标注本批回收的伏笔
         - 主角修为进度表：本批每 10 章的境界/实力变化
-      - 更新 `.cybervisor/artifacts/outline-progress.md`：记录已完成章节范围、当前批次号
+      - 更新 `workspace/outline-progress.md`：记录已完成章节范围、当前批次号
 
       大纲质量要求：
       - 节奏张弛有度，每 5-8 章设置一个小高潮，每 25-30 章设置一个大转折
@@ -63,8 +63,8 @@ stages:
       - .cybervisor/logs/stages
       - .tmp
     keep_artifacts:
-      - .cybervisor/artifacts/outline-progress.md
-      - .cybervisor/artifacts/outline-tracking.md
+      - workspace/outline-progress.md
+      - workspace/outline-tracking.md
     backup_artifacts:
       - outline/plot.md
     read_only_paths:
@@ -94,7 +94,7 @@ stages:
       - **读者体验**：钩子设置是否有效，爽点分布是否合理
 
       如果需要修改，直接编辑 `outline/plot.md`。
-      如果修改涉及伏笔或修为进度，同步更新 `.cybervisor/artifacts/outline-tracking.md`。
+      如果修改涉及伏笔或修为进度，同步更新 `workspace/outline-tracking.md`。
       保留合理的部分，只修改有问题的地方，不要大段重写。
     contract:
       fields:
@@ -232,7 +232,7 @@ stages:
       5. **情感走向**：场景的情绪曲线（压抑→爆发→释放 等）
       6. **对话预演**：关键对话的草稿，确保角色说话风格符合档案设定
 
-      将推演结果写入 `.cybervisor/artifacts/plot-simulation.md`。
+      将推演结果写入 `workspace/plot-simulation.md`。
 
       推演原则：
       - 角色的选择必须符合其性格档案，不能为了剧情需要而 OOC
@@ -252,7 +252,7 @@ stages:
     prompt_template: |
       你是一位剧情逻辑审查员，负责检查推演结果与大纲的一致性。
 
-      请审查 `.cybervisor/artifacts/plot-simulation.md`，对照：
+      请审查 `workspace/plot-simulation.md`，对照：
       - `outline/plot.md` — 300 章大纲
       - `characters/` — 角色档案
 
@@ -266,7 +266,7 @@ stages:
       如果推演结果与大纲存在合理冲突（角色性格导致大纲中的情节不太可能发生），
       记录冲突并给出调整建议。可以修改大纲以适应更合理的角色行为。
 
-      将审查意见写入 `.cybervisor/artifacts/simulation-review.md`。
+      将审查意见写入 `workspace/simulation-review.md`。
       如果需要修改大纲，直接编辑 `outline/plot.md`。
     contract:
       fields:
@@ -290,10 +290,10 @@ stages:
           injections: [Simulation Mismatch, Required Changes]
     backup_artifacts:
       - outline/plot.md
-      - .cybervisor/artifacts/plot-simulation.md
+      - workspace/plot-simulation.md
     keep_artifacts:
       - outline/plot.md
-      - .cybervisor/artifacts/plot-simulation.md
+      - workspace/plot-simulation.md
     read_only_paths:
       - "characters/**"
       - "outline/**"
@@ -308,8 +308,8 @@ stages:
 
       请基于以下材料撰写正文：
       - `outline/plot.md` — 300 章大纲（每章核心事件）
-      - `.cybervisor/artifacts/plot-simulation.md` — 关键节点推演
-      - `.cybervisor/artifacts/writing-progress.md` — 写作进度（确定起始章节编号）
+      - `workspace/plot-simulation.md` — 关键节点推演
+      - `workspace/writing-progress.md` — 写作进度（确定起始章节编号）
       - `notes/foreshadowing.md` — 伏笔与坑位追踪表
       - `outline/world.md` — 世界观设定（修炼体系、地理等）
       - `CLAUDE.md` — 写作风格要求和禁忌
@@ -319,8 +319,16 @@ stages:
 
       核心规则：每次写 3 章（最后一批可能不足 3 章）。具体步骤：
 
+      第零步 — 归档上一批次
+      - 如果 N > 1（非第一批），将以下会被覆盖的文件复制到 `workspace/archive/batch-{上一批次号}/` 目录下保留：
+        - `workspace/character-brief.md`
+        - `workspace/writing-progress.md`
+        - `workspace/chapter-review.md`（如果存在）
+      - 批次号计算：上一批最后章节号 ÷ 3（向上取整），例如上一批写了第4-6章，批次号为2
+      - 如果 archive 子目录已存在则跳过，不要重复归档
+
       第一步 — 确定进度
-      - 读取 `.cybervisor/artifacts/writing-progress.md`，确定起始章节编号 N
+      - 读取 `workspace/writing-progress.md`，确定起始章节编号 N
       - 如果 writing-progress.md 不存在，则 N = 1
       - 本批次写第 N, N+1, N+2 章（如果 N+2 > 300，则写到第 300 章为止）
 
@@ -328,7 +336,7 @@ stages:
       - 阅读大纲中第 N 到 N+2 章的内容，确定本批次涉及的所有出场人物
       - 读取 `characters/` 目录中对应角色的档案
       - 为每个出场人物撰写人物小传（200-400字），包含：当前状态、近期经历、此刻心理、与本批次事件的利害关系
-      - 将所有人物小传写入 `.cybervisor/artifacts/character-brief.md`
+      - 将所有人物小传写入 `workspace/character-brief.md`
 
       第三步 — 伏笔检查
       - 读取 `notes/foreshadowing.md`，确认当前有哪些未回收的伏笔
@@ -345,12 +353,13 @@ stages:
       - 如果写完不足 2500 字，必须继续扩充内容，不得偷工减料
 
       文件存储规则：
-      - 每 10 章一个文件：`chapters/chapters_001_010.md`、`chapters/chapters_011_020.md` ...
-      - 如果目标文件已存在，在文件末尾追加新章节
-      - 如果目标文件不存在，创建新文件
+      - 每章单独一个文件，存放于 `chapters/` 目录下
+      - 文件名格式：`第{序号}章 {标题}.md`，例如 `第1章 凡尘如蚁.md`、`第10章 剑气长城.md`
+      - 序号使用阿拉伯数字，不加前导零
+      - 标题取自大纲 `outline/plot.md` 中对应章节的标题
 
       第五步 — 收尾
-      - 更新 `.cybervisor/artifacts/writing-progress.md`：已完成章节编号、各章字数、累计总字数、当前卷
+      - 更新 `workspace/writing-progress.md`：已完成章节编号、各章字数、累计总字数、当前卷
       - 将本批次新埋的伏笔、钩子、坑追加到 `notes/foreshadowing.md`，格式：章节号 | 伏笔内容 | 预计回收章节 | 状态（待回收）
 
       写作风格要求（严格遵守）：
@@ -383,11 +392,10 @@ stages:
           next_stage: Write Chapter
     keep_artifacts:
       - outline/plot.md
-      - .cybervisor/artifacts/plot-simulation.md
-      - .cybervisor/artifacts/writing-progress.md
-      - .cybervisor/artifacts/character-brief.md
+      - workspace/plot-simulation.md
+      - workspace/writing-progress.md
+      - workspace/character-brief.md
     read_only_paths:
-      - "chapters/**"
       - "characters/**"
       - "outline/**"
       - "notes/**"
@@ -398,10 +406,10 @@ stages:
     prompt_template: |
       你是一位网文资深编辑，负责审查最新完成的章节批次。
 
-      请审查刚写完的本批次章节（通过 `.cybervisor/artifacts/writing-progress.md` 确认最新章节范围），对照以下材料：
+      请审查刚写完的本批次章节（通过 `workspace/writing-progress.md` 确认最新章节范围），对照以下材料：
       - `outline/plot.md` — 300 章大纲
-      - `.cybervisor/artifacts/plot-simulation.md` — 关键节点推演
-      - `.cybervisor/artifacts/character-brief.md` — 本批次人物小传
+      - `workspace/plot-simulation.md` — 关键节点推演
+      - `workspace/character-brief.md` — 本批次人物小传
       - `characters/` — 角色完整档案
       - `notes/foreshadowing.md` — 伏笔追踪表
       - `CLAUDE.md` — 写作要求
@@ -420,7 +428,7 @@ stages:
 
       如果发现可修复的问题，直接编辑章节文件进行修正。
       如果修正后影响了 foreshadowing.md 中的记录，同步更新。
-      将审查结果追加到 `.cybervisor/artifacts/chapter-review.md`。
+      将审查结果追加到 `workspace/chapter-review.md`。
     contract:
       fields:
         Chapters:
@@ -448,10 +456,10 @@ stages:
       - notes/foreshadowing.md
     keep_artifacts:
       - outline/plot.md
-      - .cybervisor/artifacts/plot-simulation.md
-      - .cybervisor/artifacts/writing-progress.md
-      - .cybervisor/artifacts/character-brief.md
-      - .cybervisor/artifacts/chapter-review.md
+      - workspace/plot-simulation.md
+      - workspace/writing-progress.md
+      - workspace/character-brief.md
+      - workspace/chapter-review.md
     read_only_paths:
       - "characters/**"
       - "outline/**"
@@ -479,7 +487,7 @@ stages:
       - **硬性条件**：总章数必须恰好 300 章，每章不少于 2500 字。如果不满足，必须回退到 Write Chapter 继续写作
       - **无遗留问题**：是否有明显的剧情漏洞或未交代的悬念
 
-      验证结果写入 `.cybervisor/artifacts/final-verification.md`。
+      验证结果写入 `workspace/final-verification.md`。
       不要修改任何章节文件。如果发现问题，只记录问题和修改建议。
     contract:
       fields:
@@ -499,9 +507,9 @@ stages:
           next_stage: Write Chapter
     keep_artifacts:
       - outline/plot.md
-      - .cybervisor/artifacts/plot-simulation.md
-      - .cybervisor/artifacts/writing-progress.md
-      - .cybervisor/artifacts/final-verification.md
+      - workspace/plot-simulation.md
+      - workspace/writing-progress.md
+      - workspace/final-verification.md
     max_retries: 3
 
 disabled_skills:
