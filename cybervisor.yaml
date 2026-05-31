@@ -320,7 +320,7 @@ stages:
       核心规则：每次写 3 章（最后一批可能不足 3 章）。具体步骤：
 
       第零步 — 归档上一批次
-      - 如果 N > 1（非第一批），将以下会被覆盖的文件复制到 `workspace/archive/batch-{上一批次号}/` 目录下保留：
+      - 如果 N > 1（非第一批），将以下会被覆盖的文件复制到 `workspace/archive/batch-上一批次号/` 目录下保留：
         - `workspace/character-brief.md`
         - `workspace/writing-progress.md`
         - `workspace/chapter-review.md`（如果存在）
@@ -354,7 +354,7 @@ stages:
 
       文件存储规则：
       - 每章单独一个文件，存放于 `chapters/` 目录下
-      - 文件名格式：`第{序号}章 {标题}.md`，例如 `第1章 凡尘如蚁.md`、`第10章 剑气长城.md`
+      - 文件名格式：`第序号章 标题.md`，例如 `第1章 凡尘如蚁.md`、`第10章 剑气长城.md`
       - 序号使用阿拉伯数字，不加前导零
       - 标题取自大纲 `outline/plot.md` 中对应章节的标题
 
