@@ -398,7 +398,6 @@ stages:
     read_only_paths:
       - "characters/**"
       - "outline/**"
-      - "notes/**"
       - "CLAUDE.md"
     max_retries: 3
 
@@ -425,6 +424,11 @@ stages:
       - **钩子检查**：每章结尾是否有有效悬念
       - **伏笔一致**：本批次声称回收的伏笔是否真的回收，新埋的伏笔记录是否准确
       - **禁忌检查**：是否违反 CLAUDE.md 中的禁忌事项
+
+      硬性条件检查（在给出路由结论前必须执行）：
+      - 读取 `workspace/writing-progress.md`，确认当前已完成的总章数
+      - 如果总章数 < 300，路由必须选择 APPROVED_AND_CONTINUE（即使本批次质量达标，也不能选 APPROVED_AND_COMPLETE）
+      - 只有当总章数 >= 300 时，才可以选择 APPROVED_AND_COMPLETE 进入 Verify 阶段
 
       如果发现可修复的问题，直接编辑章节文件进行修正。
       如果修正后影响了 foreshadowing.md 中的记录，同步更新。
@@ -466,7 +470,6 @@ stages:
       - "notes/**"
       - "CLAUDE.md"
     max_retries: 3
-    max_iterations: 5
 
   - name: Verify
     prompt_template: |
