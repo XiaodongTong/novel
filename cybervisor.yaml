@@ -446,13 +446,9 @@ stages:
           description: 本批次质量达标且尚未写满 300 章，路由回写作阶段写下 3 章。
           next_stage: Write Chapter
         APPROVED_AND_COMPLETE:
-          description: 本批次质量达标且已写满 300 章，路由到最终验证。
-          next_stage: Verify
-        CHANGES_MADE:
-          description: 本次审查修改了章节内容，需要再次审查该批次。
-          next_stage: Review Chapter
+          description: 本批次质量达标且已写满 300 章，全部正文写作完成。
         NEEDS_REWRITE:
-          description: 本批次质量问题严重，需要重写。
+          description: 本批次存在质量问题，需要重写。
           next_stage: Write Chapter
           injections: [Findings, Required Changes]
     backup_artifacts:
@@ -467,52 +463,7 @@ stages:
     read_only_paths:
       - "characters/**"
       - "outline/**"
-      - "notes/**"
       - "CLAUDE.md"
-    max_retries: 3
-
-  - name: Verify
-    prompt_template: |
-      你是最终质量审核员，负责从读者视角验证整部作品。
-
-      请对 `chapters/` 下所有已完成章节进行最终验证，对照：
-      - `outline/plot.md` — 大纲
-      - `characters/` — 角色档案
-      - `outline/premise.md` — 故事前提
-      - `CLAUDE.md` — 写作要求
-
-      验证维度：
-      - **整体阅读体验**：从第 1 章读到最后一章，节奏是否流畅
-      - **伏笔网络完整性**：大纲中标注的伏笔是否全部有埋有收
-      - **角色弧光完整性**：主要角色的成长轨迹是否完整
-      - **世界观一致性**：修炼体系、地理设定等是否前后一致
-      - **核心主题传达**：故事是否有效传达了"众生为基"的核心立意
-      - **硬性条件**：总章数必须恰好 300 章，每章不少于 2500 字。如果不满足，必须回退到 Write Chapter 继续写作
-      - **无遗留问题**：是否有明显的剧情漏洞或未交代的悬念
-
-      验证结果写入 `workspace/final-verification.md`。
-      不要修改任何章节文件。如果发现问题，只记录问题和修改建议。
-    contract:
-      fields:
-        Verification Results:
-          description: 从读者视角的阅读体验和发现的问题。
-        Required Changes:
-          description: 验证不通过时需要修改的具体内容。
-      routes:
-        APPROVED:
-          description: 全部验证通过，作品完成。
-        CHANGES_REQUESTED:
-          description: 发现需要修改的问题，回退到单章审查阶段。
-          next_stage: Review Chapter
-          injections: [Verification Results, Required Changes]
-        INCOMPLETE:
-          description: 章数不足或字数不达标，回退到写作阶段继续。
-          next_stage: Write Chapter
-    keep_artifacts:
-      - outline/plot.md
-      - workspace/plot-simulation.md
-      - workspace/writing-progress.md
-      - workspace/final-verification.md
     max_retries: 3
 
 disabled_skills:
