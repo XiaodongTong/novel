@@ -16,25 +16,25 @@ stages:
       本阶段分批生成 300 章大纲，每批 50 章。请按以下步骤执行：
 
       第一步 — 确定批次进度
-      - 读取 `workspace/outline-progress.md`，确定下一批起始章节号 N
+      - 读取 `output/summaries/outline-progress.md`，确定下一批起始章节号 N
       - 如果文件不存在，则 N = 1（这是第一批）
       - 本批写第 N 到 N+49 章
 
       第二步 — 第一批特有任务（仅 N=1 时执行）
-      - 在 `outline/plot.md` 顶部写入总体结构概览：卷/幕划分、每卷起承转合、主角修为总进度、关键转折点列表
+      - 在 `output/summaries/plot.md` 顶部写入总体结构概览：卷/幕划分、每卷起承转合、主角修为总进度、关键转折点列表
       - 总体结构只需写一次，后续批次不再重复
 
       第三步 — 生成本批 50 章大纲
-      - 如果 N > 1，先读取 `outline/plot.md` 已有内容和 `outline-tracking.md`，确保本批与前文衔接
-      - 在 `outline/plot.md` 末尾追加本批 50 章的详细大纲
+      - 如果 N > 1，先读取 `output/summaries/plot.md` 已有内容和 `outline-tracking.md`，确保本批与前文衔接
+      - 在 `output/summaries/plot.md` 末尾追加本批 50 章的详细大纲
       - 每章包含：章节号、标题、核心事件（2-4 句话概括）、涉及主要人物、情绪基调
       - 标注本批中的关键转折点（如有）
 
       第四步 — 更新追踪表
-      - 更新 `workspace/outline-tracking.md`：
+      - 更新 `output/summaries/outline-tracking.md`：
         - 伏笔线索追踪表：新增伏笔、标注本批回收的伏笔
         - 主角修为进度表：本批每 10 章的境界/实力变化
-      - 更新 `workspace/outline-progress.md`：记录已完成章节范围、当前批次号
+      - 更新 `output/summaries/outline-progress.md`：记录已完成章节范围、当前批次号
 
       大纲质量要求：
       - 节奏张弛有度，每 5-8 章设置一个小高潮，每 25-30 章设置一个大转折
@@ -63,10 +63,10 @@ stages:
       - .cybervisor/logs/stages
       - .tmp
     keep_artifacts:
-      - workspace/outline-progress.md
-      - workspace/outline-tracking.md
+      - output/summaries/outline-progress.md
+      - output/summaries/outline-tracking.md
     backup_artifacts:
-      - outline/plot.md
+      - output/summaries/plot.md
     read_only_paths:
       - "outline/premise.md"
       - "outline/world.md"
@@ -79,7 +79,7 @@ stages:
     prompt_template: |
       你是一位资深网文主编，负责审查故事大纲的质量。
 
-      请审查 `outline/plot.md`（300 章完整大纲），对照以下素材：
+      请审查 `output/summaries/plot.md`（300 章完整大纲），对照以下素材：
       - `outline/premise.md` — 故事前提
       - `outline/world.md` — 世界观设定
       - `CLAUDE.md` — 写作风格要求和禁忌
@@ -93,8 +93,8 @@ stages:
       - **禁忌检查**：是否存在 CLAUDE.md 中禁止的情节模式
       - **读者体验**：钩子设置是否有效，爽点分布是否合理
 
-      如果需要修改，直接编辑 `outline/plot.md`。
-      如果修改涉及伏笔或修为进度，同步更新 `workspace/outline-tracking.md`。
+      如果需要修改，直接编辑 `output/summaries/plot.md`。
+      如果修改涉及伏笔或修为进度，同步更新 `output/summaries/outline-tracking.md`。
       保留合理的部分，只修改有问题的地方，不要大段重写。
     contract:
       fields:
@@ -123,7 +123,7 @@ stages:
           next_stage: Generate Outline
           injections: [Outline Mismatch, Required Changes]
     backup_artifacts:
-      - outline/plot.md
+      - output/summaries/plot.md
     read_only_paths:
       - "outline/premise.md"
       - "outline/world.md"
@@ -136,17 +136,17 @@ stages:
     prompt_template: |
       你是一位擅长角色塑造的小说创作顾问。
 
-      请基于已通过审查的大纲（`outline/plot.md`）和现有素材，为故事中所有重要角色创建详细的人物档案。
+      请基于已通过审查的大纲（`output/summaries/plot.md`）和现有素材，为故事中所有重要角色创建详细的人物档案。
 
       现有素材：
-      - `characters/protagonist.md` — 主角已有档案，可补充完善
+      - `output/meta/characters/protagonist.md` — 主角已有档案，可补充完善
       - `outline/world.md` — 世界观设定
-      - `outline/plot.md` — 300 章大纲
+      - `output/summaries/plot.md` — 300 章大纲
 
       任务要求：
       > {objective}
 
-      请在 `characters/` 目录下为每个重要角色创建档案文件，包含：
+      请在 `output/meta/characters/` 目录下为每个重要角色创建档案文件，包含：
       - 基本信息（姓名、年龄、灵根、修为、外貌特征）
       - 性格特征（表层性格 vs 内核性格，用具体行为模式描述而非形容词堆砌）
       - 说话风格（口头禅、句式习惯、语气特征，给出 2-3 句典型台词示例）
@@ -161,9 +161,10 @@ stages:
       - 配角的性格要和主角形成对比或互补
       - 说话风格要有辨识度，不同角色不能一个腔调
     keep_artifacts:
-      - outline/plot.md
+      - output/summaries/plot.md
     read_only_paths:
       - "outline/**"
+      - "output/summaries/**"
       - "CLAUDE.md"
     max_retries: 3
     next_stage: Review Characters
@@ -172,8 +173,8 @@ stages:
     prompt_template: |
       你是一位角色设计评审专家。
 
-      请审查 `characters/` 目录下的所有角色档案，对照：
-      - `outline/plot.md` — 300 章大纲
+      请审查 `output/meta/characters/` 目录下的所有角色档案，对照：
+      - `output/summaries/plot.md` — 300 章大纲
       - `outline/world.md` — 世界观设定
       - `CLAUDE.md` — 写作要求
 
@@ -201,11 +202,12 @@ stages:
           description: 本次审查修改了角色设定，需要再次审查。
           next_stage: Review Characters
     backup_artifacts:
-      - characters/**/*.md
+      - output/meta/characters/**/*.md
     keep_artifacts:
-      - outline/plot.md
+      - output/summaries/plot.md
     read_only_paths:
       - "outline/**"
+      - "output/summaries/**"
       - "CLAUDE.md"
     max_retries: 3
     max_iterations: 3
@@ -216,8 +218,8 @@ stages:
       你是一位剧情推演导演，需要利用 subagent 模拟关键剧情节点的角色行为。
 
       基于以下材料：
-      - `outline/plot.md` — 300 章大纲
-      - `characters/` — 所有角色档案
+      - `output/summaries/plot.md` — 300 章大纲
+      - `output/meta/characters/` — 所有角色档案
 
       任务要求：
       > {objective}
@@ -232,7 +234,7 @@ stages:
       5. **情感走向**：场景的情绪曲线（压抑→爆发→释放 等）
       6. **对话预演**：关键对话的草稿，确保角色说话风格符合档案设定
 
-      将推演结果写入 `workspace/plot-simulation.md`。
+      将推演结果写入 `output/summaries/plot-simulation.md`。
 
       推演原则：
       - 角色的选择必须符合其性格档案，不能为了剧情需要而 OOC
@@ -240,10 +242,11 @@ stages:
       - 特别注意群戏场景（多人同时在场的冲突），每个角色都要有独立反应
       - 推演不是写正文，重点是"为什么这么做"的逻辑链
     keep_artifacts:
-      - outline/plot.md
+      - output/summaries/plot.md
     read_only_paths:
-      - "characters/**"
+      - "output/meta/characters/**"
       - "outline/**"
+      - "output/summaries/**"
       - "CLAUDE.md"
     max_retries: 3
     next_stage: Review Plot Simulation
@@ -252,9 +255,9 @@ stages:
     prompt_template: |
       你是一位剧情逻辑审查员，负责检查推演结果与大纲的一致性。
 
-      请审查 `workspace/plot-simulation.md`，对照：
-      - `outline/plot.md` — 300 章大纲
-      - `characters/` — 角色档案
+      请审查 `output/summaries/plot-simulation.md`，对照：
+      - `output/summaries/plot.md` — 300 章大纲
+      - `output/meta/characters/` — 角色档案
 
       审查维度：
       - **大纲一致性**：推演结果是否与大纲中的关键事件一致
@@ -266,8 +269,8 @@ stages:
       如果推演结果与大纲存在合理冲突（角色性格导致大纲中的情节不太可能发生），
       记录冲突并给出调整建议。可以修改大纲以适应更合理的角色行为。
 
-      将审查意见写入 `workspace/simulation-review.md`。
-      如果需要修改大纲，直接编辑 `outline/plot.md`。
+      将审查意见写入 `output/review/simulation-review.md`。
+      如果需要修改大纲，直接编辑 `output/summaries/plot.md`。
     contract:
       fields:
         Findings:
@@ -289,14 +292,15 @@ stages:
           next_stage: Design Characters
           injections: [Simulation Mismatch, Required Changes]
     backup_artifacts:
-      - outline/plot.md
-      - workspace/plot-simulation.md
+      - output/summaries/plot.md
+      - output/summaries/plot-simulation.md
     keep_artifacts:
-      - outline/plot.md
-      - workspace/plot-simulation.md
+      - output/summaries/plot.md
+      - output/summaries/plot-simulation.md
     read_only_paths:
-      - "characters/**"
+      - "output/meta/characters/**"
       - "outline/**"
+      - "output/summaries/**"
       - "CLAUDE.md"
     max_retries: 3
     max_iterations: 2
@@ -307,10 +311,10 @@ stages:
       你是一位顶级网文作家，风格对标天蚕土豆和辰东。
 
       请基于以下材料撰写正文：
-      - `outline/plot.md` — 300 章大纲（每章核心事件）
-      - `workspace/plot-simulation.md` — 关键节点推演
-      - `workspace/writing-progress.md` — 写作进度（确定起始章节编号）
-      - `notes/foreshadowing.md` — 伏笔与坑位追踪表
+      - `output/summaries/plot.md` — 300 章大纲（每章核心事件）
+      - `output/summaries/plot-simulation.md` — 关键节点推演
+      - `output/summaries/writing-progress.md` — 写作进度（确定起始章节编号）
+      - `output/meta/foreshadow/foreshadowing.md` — 伏笔与坑位追踪表
       - `outline/world.md` — 世界观设定（修炼体系、地理等）
       - `CLAUDE.md` — 写作风格要求和禁忌
 
@@ -321,25 +325,25 @@ stages:
 
       第零步 — 归档上一批次
       - 如果 N > 1（非第一批），将以下会被覆盖的文件复制到 `workspace/archive/batch-上一批次号/` 目录下保留：
-        - `workspace/character-brief.md`
-        - `workspace/writing-progress.md`
-        - `workspace/chapter-review.md`（如果存在）
+        - `output/meta/characters/character-brief.md`
+        - `output/summaries/writing-progress.md`
+        - `output/review/chapter-review.md`（如果存在）
       - 批次号计算：上一批最后章节号 ÷ 3（向上取整），例如上一批写了第4-6章，批次号为2
       - 如果 archive 子目录已存在则跳过，不要重复归档
 
       第一步 — 确定进度
-      - 读取 `workspace/writing-progress.md`，确定起始章节编号 N
+      - 读取 `output/summaries/writing-progress.md`，确定起始章节编号 N
       - 如果 writing-progress.md 不存在，则 N = 1
       - 本批次写第 N, N+1, N+2 章（如果 N+2 > 300，则写到第 300 章为止）
 
       第二步 — 出场人物准备
       - 阅读大纲中第 N 到 N+2 章的内容，确定本批次涉及的所有出场人物
-      - 读取 `characters/` 目录中对应角色的档案
+      - 读取 `output/meta/characters/` 目录中对应角色的档案
       - 为每个出场人物撰写人物小传（200-400字），包含：当前状态、近期经历、此刻心理、与本批次事件的利害关系
-      - 将所有人物小传写入 `workspace/character-brief.md`
+      - 将所有人物小传写入 `output/meta/characters/character-brief.md`
 
       第三步 — 伏笔检查
-      - 读取 `notes/foreshadowing.md`，确认当前有哪些未回收的伏笔
+      - 读取 `output/meta/foreshadow/foreshadowing.md`，确认当前有哪些未回收的伏笔
       - 检查本批次章节中是否需要回收某些伏笔，如果有则在写作中自然回收
       - 回收后将 foreshadowing.md 中对应条目状态更新为"已回收"
 
@@ -353,14 +357,14 @@ stages:
       - 如果写完不足 2500 字，必须继续扩充内容，不得偷工减料
 
       文件存储规则：
-      - 每章单独一个文件，存放于 `chapters/` 目录下
+      - 每章单独一个文件，存放于 `output/chapters/` 目录下
       - 文件名格式：`第序号章 标题.md`，例如 `第1章 凡尘如蚁.md`、`第10章 剑气长城.md`
       - 序号使用阿拉伯数字，不加前导零
-      - 标题取自大纲 `outline/plot.md` 中对应章节的标题
+      - 标题取自大纲 `output/summaries/plot.md` 中对应章节的标题
 
       第五步 — 收尾
-      - 更新 `workspace/writing-progress.md`：已完成章节编号、各章字数、累计总字数、当前卷
-      - 将本批次新埋的伏笔、钩子、坑追加到 `notes/foreshadowing.md`，格式：章节号 | 伏笔内容 | 预计回收章节 | 状态（待回收）
+      - 更新 `output/summaries/writing-progress.md`：已完成章节编号、各章字数、累计总字数、当前卷
+      - 将本批次新埋的伏笔、钩子、坑追加到 `output/meta/foreshadow/foreshadowing.md`，格式：章节号 | 伏笔内容 | 预计回收章节 | 状态（待回收）
 
       写作风格要求（严格遵守）：
       - 行文大气磅礴，善用排比和对仗营造气势
@@ -391,13 +395,14 @@ stages:
           description: 本批次写作失败，需要重新尝试。
           next_stage: Write Chapter
     keep_artifacts:
-      - outline/plot.md
-      - workspace/plot-simulation.md
-      - workspace/writing-progress.md
-      - workspace/character-brief.md
+      - output/summaries/plot.md
+      - output/summaries/plot-simulation.md
+      - output/summaries/writing-progress.md
+      - output/meta/characters/character-brief.md
     read_only_paths:
-      - "characters/**"
+      - "output/meta/characters/**"
       - "outline/**"
+      - "output/summaries/**"
       - "CLAUDE.md"
     max_retries: 3
 
@@ -405,12 +410,12 @@ stages:
     prompt_template: |
       你是一位网文资深编辑，负责审查最新完成的章节批次。
 
-      请审查刚写完的本批次章节（通过 `workspace/writing-progress.md` 确认最新章节范围），对照以下材料：
-      - `outline/plot.md` — 300 章大纲
-      - `workspace/plot-simulation.md` — 关键节点推演
-      - `workspace/character-brief.md` — 本批次人物小传
-      - `characters/` — 角色完整档案
-      - `notes/foreshadowing.md` — 伏笔追踪表
+      请审查刚写完的本批次章节（通过 `output/summaries/writing-progress.md` 确认最新章节范围），对照以下材料：
+      - `output/summaries/plot.md` — 300 章大纲
+      - `output/summaries/plot-simulation.md` — 关键节点推演
+      - `output/meta/characters/character-brief.md` — 本批次人物小传
+      - `output/meta/characters/` — 角色完整档案
+      - `output/meta/foreshadow/foreshadowing.md` — 伏笔追踪表
       - `CLAUDE.md` — 写作要求
 
       只审查本批次最新 3 章，不审查历史章节。
@@ -426,13 +431,13 @@ stages:
       - **禁忌检查**：是否违反 CLAUDE.md 中的禁忌事项
 
       硬性条件检查（在给出路由结论前必须执行）：
-      - 读取 `workspace/writing-progress.md`，确认当前已完成的总章数
+      - 读取 `output/summaries/writing-progress.md`，确认当前已完成的总章数
       - 如果总章数 < 300，路由必须选择 APPROVED_AND_CONTINUE（即使本批次质量达标，也不能选 APPROVED_AND_COMPLETE）
       - 只有当总章数 >= 300 时，才可以选择 APPROVED_AND_COMPLETE 进入 Verify 阶段
 
       如果发现可修复的问题，直接编辑章节文件进行修正。
       如果修正后影响了 foreshadowing.md 中的记录，同步更新。
-      将审查结果追加到 `workspace/chapter-review.md`。
+      将审查结果追加到 `output/review/chapter-review.md`。
     contract:
       fields:
         Chapters:
@@ -452,17 +457,18 @@ stages:
           next_stage: Write Chapter
           injections: [Findings, Required Changes]
     backup_artifacts:
-      - chapters/**/*.md
-      - notes/foreshadowing.md
+      - output/chapters/**/*.md
+      - output/meta/foreshadow/foreshadowing.md
     keep_artifacts:
-      - outline/plot.md
-      - workspace/plot-simulation.md
-      - workspace/writing-progress.md
-      - workspace/character-brief.md
-      - workspace/chapter-review.md
+      - output/summaries/plot.md
+      - output/summaries/plot-simulation.md
+      - output/summaries/writing-progress.md
+      - output/meta/characters/character-brief.md
+      - output/review/chapter-review.md
     read_only_paths:
-      - "characters/**"
+      - "output/meta/characters/**"
       - "outline/**"
+      - "output/summaries/**"
       - "CLAUDE.md"
     max_retries: 3
 

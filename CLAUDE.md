@@ -50,21 +50,23 @@
 ## 写作流程规则
 
 ### 伏笔与坑位追踪
-- 每次写作时，在 `notes/foreshadowing.md` 中记录本章埋下的伏笔、钩子和挖的坑
+- 新埋伏笔写入 `output/meta/foreshadow/foreshadowing.md`（待回收伏笔）
+- 回收伏笔时：从 `foreshadowing.md` 移除对应条目，追加到 `output/meta/foreshadow/foreshadowed.md`（已回收伏笔）
 - 格式：章节号 | 伏笔内容 | 预计回收章节 | 状态（待回收/已回收）
-- 每次写作前必须读取 `notes/foreshadowing.md`，确认当前有哪些未回收的伏笔需要在后续章节中呼应或回收
-- 回收伏笔时更新状态为"已回收"
+- 每次写作前必须读取 `output/meta/foreshadow/foreshadowing.md`，确认当前有哪些未回收的伏笔需要在后续章节中呼应或回收
 
 ### 出场人物预准备
 - 每次写作前，先根据大纲确定本批次涉及的出场人物
 - 为每个出场人物写一段简短小传（200-400字），包含：当前状态、近期经历、此刻心理、与本批次事件的利害关系
 - 人物小传作为写作上下文的一部分，确保角色行为和语气符合当前状态
-- 人物小传写入 `.cybervisor/artifacts/character-brief.md`，每批次覆盖更新
+- 人物小传写入 `output/meta/characters/character-brief.md`，每批次覆盖更新
 
 ## 项目结构
 
-- `outline/` — 大纲和设定
-- `characters/` — 人物档案
-- `chapters/` — 正文章节
-- `notes/` — 灵感和素材
-- `notes/foreshadowing.md` — 伏笔与坑位追踪表
+- `output/chapters/` — 正文章节（终稿）
+- `output/summaries/` — 章节摘要与大纲（plot.md、plot-simulation.md、outline-tracking.md 等）
+- `output/review/` — 评审报告（chapter-review.md、simulation-review.md 等）
+- `output/meta/characters/` — 角色档案（index.yaml 为角色索引）
+- `output/meta/foreshadow/` — 伏笔台账（foreshadowing.md 待回收 / foreshadowed.md 已回收）
+- `outline/` — 故事前提与世界观设定（premise.md、world.md）
+- `workspace/` — 工作区临时文件（archive/ 等）
