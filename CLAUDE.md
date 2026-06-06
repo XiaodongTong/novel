@@ -65,7 +65,6 @@
 
 - `output/chapters/` — 正文章节（终稿）
 - `output/summaries/` — 章节摘要与大纲（plot.md、plot-simulation.md、outline-tracking.md 等）
-- `output/review/` — 评审报告（chapter-review.md、simulation-review.md 等）
 - `output/meta/characters/` — 角色档案（index.yaml 为角色索引）
 - `output/meta/foreshadow/` — 伏笔台账（foreshadowing.md 待回收 / foreshadowed.md 已回收）
 - `outline/` — 故事前提与世界观设定（premise.md、world.md）

@@ -2,7 +2,7 @@
 # 修仙小说审查与修改流水线
 
 stages:
-  - name: Review Batch
+  - name: 主编
     prompt_template: |
       你是一位顶级出版社的资深主编，拥有 30 年从业经验，审阅过上万部小说稿件。
       你的目标是把这部修仙小说打磨成一个"好故事"。
@@ -27,7 +27,7 @@ stages:
       任务：审查当前批次的 3 章小说。
 
       第一步 — 确定当前批次
-      - 读取 `output/review/review-progress.md`，确定当前批次起始章节号 N
+      - 读取 `output/review/progress.yaml`，取 `next_review_start` 字段作为起始章节号 N
       - 如果文件不存在，则 N = 1（这是第一批）
       - 本批审查第 N, N+1, N+2 章
 
@@ -88,7 +88,10 @@ stages:
       ```
 
       第六步 — 更新进度
-      - 更新 `output/review/review-progress.md`
+      - 更新 `output/review/progress.yaml`：
+        - 将本批结果写入 `history` 数组（字段：batch, chapters, result, date）
+        - 如果通过，将 `next_review_start` 设为 N+3
+        - 如果需要修改，将 `revision_pending` 设为 [N, N+1, N+2]
 
     contract:
       fields:
@@ -104,14 +107,14 @@ stages:
       routes:
         NEEDS_REVISION:
           description: 本批需要修改，交给写手。
-          next_stage: Revise Batch
+          next_stage: 网文作家
           injections: [Batch Info, Findings, Estimated Reduction]
         APPROVED:
           description: 本批通过，检查是否还有后续章节。
           next_stage: Check Progress
           injections: [Batch Info]
     keep_artifacts:
-      - output/review/review-progress.md
+      - output/review/progress.yaml
       - output/review/opinion/**/*.md
     read_only_paths:
       - "output/chapters/**"
@@ -119,7 +122,7 @@ stages:
       - "CLAUDE.md"
     max_retries: 10
 
-  - name: Revise Batch
+  - name: 网文作家
     prompt_template: |
       你是一位顶级网文作家，风格对标天蚕土豆和辰东。
       你的任务是根据主编的修改意见精简和优化小说章节。
@@ -134,8 +137,6 @@ stages:
 
       ## 任务要求
 
-      > {objective}
-
       任务：根据主编的修改意见，修改当前批次的 3 章。
 
       第一步 — 阅读修改意见
@@ -143,6 +144,7 @@ stages:
       - 整理需要修改的问题清单
 
       第二步 — 归档原文件
+      - 确保 `workspace/archive/chapters/` 目录存在（不存在则创建）
       - 将本批要修改的章节复制到 `workspace/archive/chapters/` 保留原版
 
       第三步 — 执行修改
@@ -163,8 +165,10 @@ stages:
       - 每章修改后控制在 2500-3000 字（中文字符）
       - 如果修改后仍然超过 3500 字，继续精简
 
-      第四步 — 更新追踪
-      - 更新 `output/review/revise-progress.md`：已完成章节、本批精简字数
+      第四步 — 更新进度
+      - 更新 `output/review/progress.yaml`：
+        - 清空 `revision_pending` 字段
+        - 在 `history` 追加修改记录（result: revised, changes: 描述）
 
     contract:
       fields:
@@ -177,13 +181,11 @@ stages:
       routes:
         DONE:
           description: 修改完成，交给主编再审。
-          next_stage: Review Batch
+          next_stage: 主编
           injections: [Batch Info, Changes Made]
     keep_artifacts:
-      - output/review/revise-progress.md
+      - output/review/progress.yaml
       - output/review/opinion/**/*.md
-      - output/chapters/**/*.md
-    backup_artifacts:
       - output/chapters/**/*.md
     read_only_paths:
       - "docs/**"
@@ -199,21 +201,22 @@ stages:
       检查当前审查进度，决定下一步行动。
 
       第一步 — 读取进度
-      - 读取 `output/review/review-progress.md`
-      - 确定当前已完成的章节范围
+      - 读取 `output/review/progress.yaml`
+      - 取 `next_review_start` 字段确定下一批起始章节 N
+      - 取 `total_chapters` 字段确定全书章节数
 
       第二步 — 判断是否完成
 
-      **完成条件**：已审查到第 300 章（或全书最后一章）
+      **完成条件**：N > total_chapters
 
-      **未完成**：还有后续章节待审查
+      **未完成**：N <= total_chapters
 
       第三步 — 如果未完成
-      - 更新进度文件，将起始章节设为 N+3（下一批）
-      - 路由到 Review Batch 继续审查
+      - 路由到 主编 继续审查
 
       第四步 — 如果完成
-      - 输出最终审查报告
+      - 更新 `output/review/progress.yaml`，设置 `status: completed`
+      - 输出最终审查报告（从 `history` 汇总统计）
       - 路由到 COMPLETE
 
     contract:
@@ -227,12 +230,12 @@ stages:
       routes:
         CONTINUE:
           description: 还有后续章节，继续审查。
-          next_stage: Review Batch
+          next_stage: 主编
           injections: [Current Progress, Next Batch]
         COMPLETE:
           description: 全书审查完成。
     keep_artifacts:
-      - output/review/review-progress.md
+      - output/review/progress.yaml
     read_only_paths:
       - "output/chapters/**"
       - "output/review/opinion/**"
