@@ -1,18 +1,5 @@
-# 审查流水线统一进度文件
+# 审查流水线历史记录
 
-# 全书总章节数
-total_chapters: 300
-
-# 下一批审查的起始章节号
-next_review_start: 16
-
-# 当前待修改的章节（非空时表示有章节正在修改或等待再审）
-revision_pending: []
-
-# 状态：running / completed
-status: running
-
-# 历史记录
 history:
   - batch: 1
     chapters: [1, 2, 3]
