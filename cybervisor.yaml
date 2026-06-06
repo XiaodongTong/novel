@@ -139,11 +139,7 @@ stages:
       - 读取 `output/review/opinion/` 下本批次的修改意见文件
       - 整理需要修改的问题清单
 
-      第二步 — 归档原文件
-      - 确保 `workspace/archive/chapters/` 目录存在（不存在则创建）
-      - 将本批要修改的章节复制到 `workspace/archive/chapters/` 保留原版
-
-      第三步 — 执行修改
+      第二步 — 执行修改
 
       按优先级修改：
       1. **一票否决级问题必须修复**
