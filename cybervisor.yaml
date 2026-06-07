@@ -85,9 +85,9 @@ stages:
 
       第六步 — 更新进度
       - 更新 `output/review/progress.yaml`：
-        - 将本批结果写入 `history` 数组（字段：batch, chapters, result, date）
         - 如果通过，将 `next_review_start` 设为 N+3
         - 如果需要修改，将 `revision_pending` 设为 [N, N+1, N+2]
+      - 将本批结果追加到 `output/review/history.yaml` 的 `history` 数组（字段：batch, chapters, result, date）
 
     contract:
       fields:
@@ -160,7 +160,7 @@ stages:
       第四步 — 更新进度
       - 更新 `output/review/progress.yaml`：
         - 清空 `revision_pending` 字段
-        - 在 `history` 追加修改记录（result: revised, changes: 描述）
+      - 在 `output/review/history.yaml` 的 `history` 数组追加修改记录（result: revised, changes: 描述）
 
     contract:
       fields:
@@ -208,7 +208,6 @@ stages:
 
       第四步 — 如果完成
       - 更新 `output/review/progress.yaml`，设置 `status: completed`
-      - 输出最终审查报告（从 `history` 汇总统计）
       - 路由到 COMPLETE
 
     contract:
