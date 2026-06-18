@@ -49,11 +49,6 @@
 
 ## 写作流程规则
 
-### 伏笔与坑位追踪
-- 新埋伏笔写入 `output/meta/foreshadow/foreshadowing.md`（待回收伏笔）
-- 回收伏笔时：从 `foreshadowing.md` 移除对应条目，追加到 `output/meta/foreshadow/foreshadowed.md`（已回收伏笔）
-- 格式：章节号 | 伏笔内容 | 预计回收章节 | 状态（待回收/已回收）
-- 每次写作前必须读取 `output/meta/foreshadow/foreshadowing.md`，确认当前有哪些未回收的伏笔需要在后续章节中呼应或回收
 
 ### 出场人物预准备
 - 每次写作前，先根据大纲确定本批次涉及的出场人物
