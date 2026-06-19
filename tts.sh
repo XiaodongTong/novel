@@ -51,14 +51,14 @@ echo "范围: 第${START}章 ~ 第${END}章"
 echo ""
 
 for i in $(seq $START $END); do
-    FILE=$(find ./output/chapters-rewrite -name "第${i}章 *.md" -print -quit)
+    FILE=$(find ./output/chapters-rewrite -name "第${i}章 *.txt" -print -quit)
 
     if [ -z "$FILE" ]; then
         echo "跳过: 未找到第${i}章"
         continue
     fi
 
-    BASENAME=$(basename "$FILE" .md)
+    BASENAME=$(basename "$FILE" .txt)
     OUTPUT="./output/mp4/${BASENAME}.mp3"
 
     if [ -f "$OUTPUT" ]; then
