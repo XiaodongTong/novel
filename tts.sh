@@ -66,18 +66,24 @@ for i in $(seq $START $END); do
         continue
     fi
 
-    TEMP_FILE=$(mktemp)
-    tr -d '*' < "$FILE" > "$TEMP_FILE"
-
     echo "处理: 第${i}章 -> ${BASENAME}.mp3"
-    edge-tts --voice "$VOICE" -f "$TEMP_FILE" --write-media "$OUTPUT" 2>&1
-    STATUS=$?
-    rm -f "$TEMP_FILE"
+    # edge-tts 服务端偶发断开（NoAudioReceived），加重试
+    SUCCESS=0
+    for attempt in 1 2 3 4 5; do
+        edge-tts --voice "$VOICE" -f "$FILE" --write-media "$OUTPUT" > /dev/null 2>&1
+        if [ $? -eq 0 ] && [ -s "$OUTPUT" ]; then
+            SUCCESS=1
+            [ $attempt -gt 1 ] && echo "  重试第 $((attempt-1)) 次后成功"
+            break
+        fi
+        rm -f "$OUTPUT"
+        [ $attempt -lt 5 ] && sleep 2
+    done
 
-    if [ $STATUS -eq 0 ]; then
+    if [ $SUCCESS -eq 1 ]; then
         echo "完成: ${BASENAME}.mp3"
     else
-        echo "失败: 第${i}章"
+        echo "失败: 第${i}章（5 次重试均失败）"
     fi
 done
 
