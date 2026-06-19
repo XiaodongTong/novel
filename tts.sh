@@ -9,10 +9,10 @@ show_help() {
   tts.sh -v zh-CN-YunxiNeural 1 10
 
 可选语音:
-  zh-CN-XiaoxiaoNeural          女，温暖    --新闻、小说（默认）
+  zh-CN-XiaoxiaoNeural          女，温暖    --新闻、小说
   zh-CN-XiaoyiNeural            女，活泼    --卡通、小说
   zh-CN-YunjianNeural           男，激情    --体育、小说
-  zh-CN-YunxiNeural             男，阳光    --小说
+  zh-CN-YunxiNeural             男，阳光    --小说（默认）
   zh-CN-YunxiaNeural            男，可爱    --卡通、小说
   zh-CN-YunyangNeural           男，稳重    --新闻
   zh-CN-liaoning-XiaobeiNeural  女，幽默    --方言（辽宁）
@@ -20,7 +20,7 @@ show_help() {
 EOF
 }
 
-VOICE="zh-CN-XiaoxiaoNeural"
+VOICE="zh-CN-YunxiNeural"
 
 while getopts "v:h" opt; do
     case $opt in
@@ -44,14 +44,14 @@ if [ $START -gt $END ]; then
     exit 1
 fi
 
-mkdir -p ./output/mp3
+mkdir -p ./output/mp4
 
 echo "语音: $VOICE"
 echo "范围: 第${START}章 ~ 第${END}章"
 echo ""
 
 for i in $(seq $START $END); do
-    FILE=$(find ./output/chapters -name "第${i}章 *.md" -print -quit)
+    FILE=$(find ./output/chapters-rewrite -name "第${i}章 *.md" -print -quit)
 
     if [ -z "$FILE" ]; then
         echo "跳过: 未找到第${i}章"
@@ -59,17 +59,22 @@ for i in $(seq $START $END); do
     fi
 
     BASENAME=$(basename "$FILE" .md)
-    OUTPUT="./output/mp3/${BASENAME}.mp3"
+    OUTPUT="./output/mp4/${BASENAME}.mp3"
 
     if [ -f "$OUTPUT" ]; then
         echo "跳过: ${BASENAME}.mp3 已存在"
         continue
     fi
 
-    echo "处理: 第${i}章 -> ${BASENAME}.mp3"
-    edge-tts --voice "$VOICE" -f "$FILE" --write-media "$OUTPUT" 2>&1
+    TEMP_FILE=$(mktemp)
+    tr -d '*' < "$FILE" > "$TEMP_FILE"
 
-    if [ $? -eq 0 ]; then
+    echo "处理: 第${i}章 -> ${BASENAME}.mp3"
+    edge-tts --voice "$VOICE" -f "$TEMP_FILE" --write-media "$OUTPUT" 2>&1
+    STATUS=$?
+    rm -f "$TEMP_FILE"
+
+    if [ $STATUS -eq 0 ]; then
         echo "完成: ${BASENAME}.mp3"
     else
         echo "失败: 第${i}章"
