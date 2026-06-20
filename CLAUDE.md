@@ -155,11 +155,11 @@
 4. 写 outline/chapter-designs/chXX-beats.md（11 项节拍蓝图）
 5. 强制项自检（不满足不回扩写）→ 扩写正文
 6. 自查（docs/审稿-checklist.md 10 条）→ Explore 合规审稿 → story-review 读者冷读
-7. 改 → commit → 更新 PROGRESS「声音锚点」+ foreshadow
+7. 改 → commit → 滚动更新 PROGRESS「声音锚点区」（只留最近 3 章）+ foreshadow
 ```
 
 **关键约束**：
-- 章设计文档（chXX-beats.md）**不 commit**（过程产物）。
+- 章设计文档（chXX-beats.md）**不 commit**（过程产物）；仅保留 `TEMPLATE.md`，样板用 `SAMPLE-*.md` 命名。
 - 扩写正文时**只回看**章设计的 4 项（目标情绪+信息差+对手节奏+画面感锚点）+ voice-baseline 的 20 条规则——避免按表填空变机械。
 - 审稿明确分工：Explore **只做合规检索**；story-review skill **做主编视角判断**。两者独立。
 
