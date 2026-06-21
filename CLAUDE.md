@@ -88,8 +88,6 @@
 | `template.md` | **章设计模板**——11 项节拍蓝图骨架，每章写正文前先产出 `chXX-beats.md` |
 | `chXX-beats.md` | 各章节的章设计文档（过程产物，不 commit） |
 
-### 🗄️ 归档 —— `archive/legacy/`
-
 ---
 
 ## 四、核心设定速查（写作时随时回看）
