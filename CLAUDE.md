@@ -17,7 +17,7 @@
 1. `base/world/` —— 世界观最高权威（世界怎么运作）
 2. `base/spine.md` —— 全书脊柱（讲什么故事）
 3. `style/style-guide.md` —— 写作规范（怎么讲）
-4. `base/outline/总纲.md` —— 章节级推进（每弧每章干什么）
+4. `base/arcs/` —— 各弧章节级推进（每弧每章干什么）
 5. `characters/` —— 人物设定
 6. `progress/progress.md` + `progress/foreshadow.md` —— 进度与伏笔台账
 
@@ -38,7 +38,7 @@
 ### 📖 故事脊柱 —— `base/`
 | 文档 | 内容 |
 |---|---|
-| `spine.md` | 全书脊柱（pitch + 三层钩子 + 五弧线 + 节点 + 开篇节奏） |
+| `spine.md` | 全书脊柱（pitch + 三层钩子 + 七弧结构 + 节点 + 执行索引） |
 
 ### 🎨 写作规范（内容风格性）—— `style/`
 | 文档 | 内容 |
@@ -48,11 +48,10 @@
 | `voice-baseline.md` | **声音基线**——17 条声音规则（内心独白 5 + 视角 3 + 节奏 3 + 程式化 3 + 画面感 3）。预定义版，ch1 写完用实做经验反向校准。 |
 | `rules-baseline.md` | **规则基线**——3 条情节/格式硬约束（代价铁律 + 反派铁律 + 开篇铁律）。与 voice-baseline 平行。 |
 
-### 📋 大纲 —— `base/outline/`
+### 📋 各弧推进 —— `base/arcs/`
 | 文档 | 内容 |
 |---|---|
-| `总纲.md` | 前100章五弧线 + 每弧核心阴谋事件 + 章节推进（含「主角主动决策/行为」列）+ 待解决问题 |
-| `arcs/arc1..arc7-*.md` | 各弧独立文件（核心阴谋 + 章节推进 + 待解决设计问题） |
+| `arc1..arc7-*.md` | 各弧独立文件（核心阴谋 + 章节推进 + 待解决设计问题） |
 
 ### 📐 剧情方案稿 —— `base/plan/`
 | 文档 | 内容 |
@@ -145,7 +144,7 @@
 
 ### 修改设定
 1. 先改 `base/world/` 对应文档。
-2. 检查 `base/spine.md` / `base/outline/总纲.md` / `characters/` 是否受影响，同步更新。
+2. 检查 `base/spine.md` / `base/arcs/` / `characters/` 是否受影响，同步更新。
 3. 更新 `progress/foreshadow.md`。
 
 ### 配角档案格式（强制）
