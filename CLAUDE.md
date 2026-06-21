@@ -86,7 +86,7 @@
 | 文档 | 内容 |
 |---|---|
 | `template.md` | **章设计模板**——11 项节拍蓝图骨架，每章写正文前先产出 `chXX-beats.md` |
-| `chXX-beats.md` | 各章节的章设计文档（过程产物，不 commit） |
+| `chXX-beats.md` | 各章节的章设计文档 |
 
 ---
 
@@ -148,7 +148,7 @@
 ```
 
 **关键约束**：
-- 章设计文档（chXX-beats.md）**不 commit**（过程产物）；仅保留 `template.md`，样板用 `SAMPLE-*.md` 命名。
+- 章设计文档（chXX-beats.md），样板用 `SAMPLE-*.md` 命名。
 - 扩写正文时**只回看**章设计的 4 项（目标情绪+信息差+对手节奏+画面感锚点）+ voice-baseline 的 20 条规则——避免按表填空变机械。
 - 审稿明确分工：Explore **只做合规检索**；story-review skill **做主编视角判断**。两者独立。
 
@@ -159,7 +159,6 @@
 1. 先改 `base/world/` 对应文档。
 2. 检查 `base/spine.md` / `base/outline/总纲.md` / `characters/` 是否受影响，同步更新。
 3. 更新 `progress/foreshadow.md`。
-4. commit。
 
 ### 配角档案格式（强制）
 每个核心配角必须含「**小档案（戏剧引擎）**」小节，三件套字段：
