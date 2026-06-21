@@ -2,8 +2,6 @@
 
 > 本文件是工程的**唯一索引入口**。所有写作、审稿、维护工作，先读本文件。
 > `AGENTS.md` 是本文件的软链，内容完全一致。
-> **新设定为唯一正典。** 旧版（经络图/暗脉/信仰之力/众生之网等）已全部废弃并归档于 `archive/legacy/`，仅供历史参考，不得用于新内容创作。
-
 ---
 
 ## 一、项目简介
@@ -90,8 +88,7 @@
 | `template.md` | **章设计模板**——11 项节拍蓝图骨架，每章写正文前先产出 `chXX-beats.md` |
 | `chXX-beats.md` | 各章节的章设计文档（过程产物，不 commit） |
 
-### 🗄️ 归档（旧版，仅供历史参考）—— `archive/legacy/`
-旧300章正文 + 旧大纲 + 旧角色 + 旧伏笔 + 旧世界观。**基于废弃设定，不得用于新内容。**
+### 🗄️ 归档 —— `archive/legacy/`
 
 ---
 
@@ -150,7 +147,6 @@
 4. 写 output/chapter-designs/chXX-beats.md（11 项节拍蓝图）
 5. 强制项自检（不满足不回扩写）→ 扩写正文
 6. 自查（handbook/审稿准则.md）→ Explore 合规审稿 → story-review 读者冷读
-7. 改 → commit → 滚动更新 progress/progress.md「声音锚点区」（只留最近 3 章）+ progress/foreshadow.md
 ```
 
 **关键约束**：
@@ -179,9 +175,6 @@
 
 ## 七、工程约定
 
-- **禁止使用 MCP 工具**（沿用旧约定）。
+- **禁止使用 MCP 工具**
 - 正文输出到 `output/chapters/`，命名 `第N章 标题.txt`。
-- 旧版 `.md` 文件已全部转换为 `.txt` 格式并删除原 `.md` 文件。
-- 中文 commit message，说明本批改动要点。
-- 旧版内容（`archive/legacy/`）只读参考，不修改。
-- 媒体产物（mp3/mp4/images）、脚本（tts.sh 等）、配置不动。
+

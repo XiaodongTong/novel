@@ -72,7 +72,6 @@
 - 两者独立，不能合并。
 
 ### 章设计文档处理
-- 章设计文档（chXX-beats.md）**不 commit 进正文仓库**——它是过程产物，写完即用，扩写完成后不留。
 - 模板保留 ../output/chapter-designs/template.md；若要留样板，使用 SAMPLE-*.md 命名，不使用 chXX-beats.md。
 
 ## 声音锚点区
