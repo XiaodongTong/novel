@@ -1,16 +1,16 @@
 # TTS 语音列表
 
-使用 `edge-tts` 将小说章节转为 MP3 音频。
+使用 edge-tts 将小说章节转为 MP3 音频。
 
 ## 用法
 
-```bash
+`bash
 # 默认语音（XiaoxiaoNeural）
 ./tts.sh 1 10
 
 # 指定语音
 ./tts.sh -v zh-CN-YunxiNeural 1 10
-```
+`
 
 ## 可用中文语音
 
@@ -27,8 +27,8 @@
 
 ## 推荐
 
-- 修仙小说男主视角：`zh-CN-YunxiNeural`（阳光）或 `zh-CN-YunjianNeural`（激情）
-- 女声旁白：`zh-CN-XiaoxiaoNeural`（温暖）
+- 修仙小说男主视角：zh-CN-YunxiNeural（阳光）或 zh-CN-YunjianNeural（激情）
+- 女声旁白：zh-CN-XiaoxiaoNeural（温暖）
 
 ## 参考
 

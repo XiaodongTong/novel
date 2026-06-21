@@ -1,7 +1,7 @@
 # 试刀人（Arc1 反派）
 
 > Arc1 那个"奉赵玄机之命来试探/处理顾生的人"。Arc1 反杀高潮的素材。
-> 详见 `../story/SPINE.md` §六 Arc1 + `../outline/总纲.md` Arc1。
+> 详见 ../base/spine.md §六 Arc1 + ../base/outline/总纲.md Arc1。
 
 ---
 
