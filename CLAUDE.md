@@ -48,9 +48,7 @@
 - `voice-baseline.md` —— 声音基线（17 条）
 - `rules-baseline.md` —— 规则基线（含实力铁律 5 条）
 
-### `base/arcs/` —— 各弧推进
-- `README.md` —— **入口**：七弧文件索引 + 跨弧内容指路
-- `arc1..arc7-*.md` —— 各弧独立文件（章节推进+实力节点同表；通用规则去 `base/world/04-修炼成长.md`）
+### `base/arcs/README.md` —— 各弧推进
 
 ### `characters/` —— 人物
 - `index.yaml` —— 索引
