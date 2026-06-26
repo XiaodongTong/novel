@@ -16,7 +16,7 @@ show_help() {
 
 示例:
   # 首次：传入路径，生成成功后自动记忆
-  tts.sh -d ./output/chapters -o ./output/mp4 1 10
+  tts.sh -d ./output/chapters -o ./output/mp3 1 10
 
   # 之后：路径从 .tts-config 自动读取，无需再传
   tts.sh 1 10
