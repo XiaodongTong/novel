@@ -1,0 +1,4 @@
+# tts.sh 自动记忆的配置（不要手工编辑除非知道自己在做什么）
+INPUT_DIR="./output/chapters"
+OUTPUT_DIR="./output/mp3"
+PREFIX_TEMPLATE="第%d章 "
