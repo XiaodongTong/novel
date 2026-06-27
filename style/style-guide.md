@@ -119,9 +119,9 @@
 
 > 本节是 harness 索引——扩写一章前，按顺序读完下列文件。
 
-1. **../output/chapter-designs/template.md** —— 章设计 11 项模板。本章写正文前先产出 chXX-beats.md。
-2. **voice-baseline.md** —— 20 条声音规则。扩写时只回看本章 chXX-beats.md 的 4 项（目标情绪+信息差+对手节奏+画面感锚点）+ voice-baseline 的全部 20 条。
+1. **../output/chapter-designs/template.md** —— 章设计 12 项模板（9 基础强制项 + 3 张力强制项 T1/T2/T3）。本章写正文前先产出 chXX-beats.md。
+2. **voice-baseline.md** —— 声音规则。扩写时只回看本章 chXX-beats.md 的 **7 项**（目标情绪+信息差+本章情节+对手节奏+T1最大意外+T2最像要输的一刻+画面感锚点）+ voice-baseline 全部条目。详见 chapter-writer SKILL §三。
 3. **beats-library.md** —— 6 类节拍样板（看破不说破 5 步 / 打脸高潮 / 反预期反转 / 代价兑现 / 钩子四选一 / 节奏对比）。本章涉及的节拍类型 1-2 种参考。
-4. **../handbook/审稿准则.md** —— 审稿标准（主编三问 + 六特质 + 一票否决门）。本章写完后自查用。
+4. **../handbook/审稿准则.md** —— 审稿标准（**红队挑刺层** + 主编三问 + 一票否决门）。本章写完后自查用。
 
-**严禁**：扩写时回看章设计的全部 11 项——会变机械（按表填空）。**只读 4 项 + voice-baseline 20 条**。
+**严禁**：扩写时回看章设计的全部 12 项——会变机械（按表填空）。**只读 7 项 + voice-baseline**（详见 chapter-writer SKILL §三「扩写时只回看七项」）。
