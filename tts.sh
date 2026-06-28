@@ -168,11 +168,18 @@ for i in $(seq $START $END); do
         continue
     fi
 
+    # 长音频里给听众一个"现在是哪章"的锚点：开头拼一句章名
+    TMP_INPUT=$(mktemp)
+    {
+        printf '%s。\n' "$BASENAME"
+        cat "$FILE"
+    } > "$TMP_INPUT"
+
     echo "处理: 第${i}章 -> ${BASENAME}.mp3"
     # edge-tts 服务端偶发断开（NoAudioReceived），加重试
     SUCCESS=0
     for attempt in 1 2 3 4 5; do
-        edge-tts --voice "$VOICE" -f "$FILE" --write-media "$OUTPUT" > /dev/null 2>&1
+        edge-tts --voice "$VOICE" -f "$TMP_INPUT" --write-media "$OUTPUT" > /dev/null 2>&1
         if [ $? -eq 0 ] && [ -s "$OUTPUT" ]; then
             SUCCESS=1
             [ $attempt -gt 1 ] && echo "  重试第 $((attempt-1)) 次后成功"
@@ -181,6 +188,8 @@ for i in $(seq $START $END); do
         rm -f "$OUTPUT"
         [ $attempt -lt 5 ] && sleep 2
     done
+
+    rm -f "$TMP_INPUT"
 
     if [ $SUCCESS -eq 1 ]; then
         echo "完成: ${BASENAME}.mp3"
